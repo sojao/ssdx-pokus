@@ -1,9 +1,7 @@
 {
-  "name": "node-example",
+  "name": "ssdx-pokus",
   "version": "0.0.1",
-  "dependencies": {
-    "express": "2.5.x"
-  },
+  "main": "pokus.js",
   "engines": {
     "node": "0.8.x",
     "npm": "1.1.x"
