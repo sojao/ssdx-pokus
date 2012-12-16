@@ -20,13 +20,13 @@ http.createServer(function(request, response) {
     			response.setHeader("Content-Type", "text/plain");
             	response.statusCode = 500;
     			response.write(err + "\n");
-    			response.close();
+    			response.end();
     			return;
     		}
     		
     		response.statusCode = 200;
     		response.write(file, "binary");
-    		response.close();
+    		response.end();
     	});
     });
 }).listen(process.env.PORT || 5000);
