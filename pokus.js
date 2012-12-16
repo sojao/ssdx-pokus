@@ -28,6 +28,6 @@ http.createServer(function(request, response) {
     		response.close();
     	});
     });
-}).listen(8080);
+}).listen(process.env.PORT || 5000);
 
 sys.puts("Server running at http://localhost:8080/");
