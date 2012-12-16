@@ -1,14 +1,33 @@
-// reference the http module so we can create a webserver
-var http = require("http");
+var sys = require("sys"),
+    http = require("http"),
+    url = require("url"),
+    path = require("path"),
+    fs = require("fs");
+    
+http.createServer(function(request, response) {
+    var uri = url.parse(request.url).pathname;
+    var filename = path.join(process.cwd(), uri);
+    path.exists(filename, function(exists) {
+    	if(!exists) {
+    		response.sendHeader(404, {"Content-Type": "text/plain"});
+    		response.write("404 Not Found\n");
+    		response.close();
+    		return;
+    	}
+    	
+    	fs.readFile(filename, "binary", function(err, file) {
+    		if(err) {
+    			response.sendHeader(500, {"Content-Type": "text/plain"});
+    			response.write(err + "\n");
+    			response.close();
+    			return;
+    		}
+    		
+    		response.sendHeader(200);
+    		response.write(file, "binary");
+    		response.close();
+    	});
+    });
+}).listen(8080);
 
-// create a server
-http.createServer(function(req, res) {
-    // on every request, we'll output 'Hello world'
-    res.end("Hello world from Cloud9! A je to!!!");
-}).listen(process.env.PORT, process.env.IP);
-
-// Note: when spawning a server on Cloud9 IDE, 
-// listen on the process.env.PORT and process.env.IP environment variables
-
-// Click the 'Run' button at the top to start your server,
-// then click the URL that is emitted to the Output tab of the console
+sys.puts("Server running at http://localhost:8080/");
