@@ -17,13 +17,14 @@ http.createServer(function(request, response) {
     	
     	fs.readFile(filename, "binary", function(err, file) {
     		if(err) {
-    			response.sendHeader(500, {"Content-Type": "text/plain"});
+    			response.setHeader("Content-Type", "text/plain");
+            	response.statusCode = 500;
     			response.write(err + "\n");
     			response.close();
     			return;
     		}
     		
-    		response.sendHeader(200);
+    		response.statusCode = 200;
     		response.write(file, "binary");
     		response.close();
     	});
